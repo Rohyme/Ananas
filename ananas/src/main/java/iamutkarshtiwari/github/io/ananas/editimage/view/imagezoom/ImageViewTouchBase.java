@@ -48,7 +48,7 @@ public abstract class ImageViewTouchBase extends ImageView implements
 		 * @param bottom
 		 */
 		void onLayoutChanged(boolean changed, int left, int top, int right,
-							 int bottom);
+                             int bottom);
 	};
 
 	/**

@@ -59,7 +59,7 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void addStickerImages(String folderPath, int stickerCount) {
         pathList.clear();
         for (int i = 0; i < stickerCount; i++) {
-            pathList.add(folderPath + "_" + Integer.toString(i + 1));
+            pathList.add(folderPath + "_" + (i + 1));
         }
         this.notifyDataSetChanged();
     }

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
 import iamutkarshtiwari.github.io.ananas.editimage.ModuleConfig;
@@ -48,6 +47,17 @@ public class StickerFragment extends BaseEditFragment {
 
     public static StickerFragment newInstance() {
         return new StickerFragment();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mainView =null;
+        flipper = null;
+        stickerView =null;
+        stickerAdapter = null;
+        loadingDialog = null;
     }
 
     @Override

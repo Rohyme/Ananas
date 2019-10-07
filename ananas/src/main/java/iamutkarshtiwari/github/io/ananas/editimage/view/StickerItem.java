@@ -10,7 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.utils.RectUtil;
@@ -59,12 +63,10 @@ public class StickerItem {
         greenPaint.setAlpha(120);
 
         if (deleteBit == null) {
-            deleteBit = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.ic_close);
+            deleteBit = drawableToBitmap(ContextCompat.getDrawable(context,R.drawable.ic_close));
         }
         if (rotateBit == null) {
-            rotateBit = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.ic_resize);
+            rotateBit = drawableToBitmap(ContextCompat.getDrawable(context,R.drawable.ic_resize));
         }
     }
 
@@ -99,6 +101,20 @@ public class StickerItem {
         detectDeleteRect = new RectF(deleteRect);
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     private void updateHelpBoxRect() {
         this.helpBox.left -= HELP_BOX_PAD;
         this.helpBox.right += HELP_BOX_PAD;
@@ -118,6 +134,7 @@ public class StickerItem {
         this.detectRotateRect.offset(dx, dy);
         this.detectDeleteRect.offset(dx, dy);
     }
+
 
     void updateRotateAndScale(final float oldx, final float oldy,
                               final float dx, final float dy) {

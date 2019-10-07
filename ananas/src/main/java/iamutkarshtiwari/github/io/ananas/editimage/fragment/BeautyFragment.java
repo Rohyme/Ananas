@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
-import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
 import iamutkarshtiwari.github.io.ananas.editimage.ModuleConfig;
@@ -43,6 +42,19 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
 
     public static BeautyFragment newInstance() {
         return new BeautyFragment();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mainView =null;
+        dialog =null;
+        smoothValueBar =null;
+        whiteValueBar =null;
+        if (beautyDisposable.isDisposed()){
+            beautyDisposable.dispose();
+        }
+        finalBmp =null;
     }
 
     @Override

@@ -342,7 +342,7 @@ public class BitmapUtils {
     }
 
     public static Bitmap getSampledBitmap(String filePath, int reqWidth, int reqHeight) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        Options options = new Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
         int inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
@@ -353,7 +353,7 @@ public class BitmapUtils {
     }
 
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -382,7 +382,7 @@ public class BitmapUtils {
         }
         try {
             FileOutputStream out = new FileOutputStream(f);
-            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            bm.compress(CompressFormat.PNG, 90, out);
             out.flush();
             out.close();
             return true;

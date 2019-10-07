@@ -54,7 +54,7 @@ public class SaturationFragment extends BaseEditFragment {
         View mBackToMenu = mainView.findViewById(R.id.back_to_main);
 
         this.mSaturationView = ensureEditActivity().saturationView;
-        mBackToMenu.setOnClickListener(new SaturationFragment.BackToMenuClick());
+        mBackToMenu.setOnClickListener(new BackToMenuClick());
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

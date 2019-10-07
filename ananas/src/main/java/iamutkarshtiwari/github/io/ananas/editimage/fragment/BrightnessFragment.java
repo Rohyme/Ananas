@@ -57,7 +57,7 @@ public class BrightnessFragment extends BaseEditFragment {
         View mBackToMenu = mainView.findViewById(R.id.back_to_main);
 
         this.mBrightnessView = ensureEditActivity().brightnessView;
-        mBackToMenu.setOnClickListener(new BrightnessFragment.BackToMenuClick());
+        mBackToMenu.setOnClickListener(new BackToMenuClick());
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

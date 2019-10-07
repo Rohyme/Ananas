@@ -28,7 +28,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 
-import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.AddTextFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.BeautyFragment;
@@ -59,6 +58,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static iamutkarshtiwari.github.io.ananas.editimage.ImageEditorConstantsKt.*;
 
 public class EditImageActivity extends BaseActivity implements OnLoadingDialogListener {
     private static final int PERMISSIONS_REQUEST_CODE = 110;
@@ -116,9 +117,10 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     private RedoUndoController redoUndoController;
     private OnMainBitmapChangeListener onMainBitmapChangeListener;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private ImageEditorScreens  screens;
 
     public static void start(Activity activity, Intent intent, int requestCode) {
-        if (TextUtils.isEmpty(intent.getStringExtra(ImageEditorIntentBuilder.SOURCE_PATH))) {
+        if (TextUtils.isEmpty(intent.getStringExtra(SOURCE_PATH))) {
             Toast.makeText(activity, R.string.iamutkarshtiwari_github_io_ananas_not_selected, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -129,6 +131,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_edit);
+        screens =(ImageEditorScreens) getIntent().getSerializableExtra(FEATURES_SCREENS);
         initView();
         getData();
     }
@@ -150,9 +153,9 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     }
 
     private void getData() {
-        isPortraitForced = getIntent().getBooleanExtra(ImageEditorIntentBuilder.FORCE_PORTRAIT, false);
-        sourceFilePath = getIntent().getStringExtra(ImageEditorIntentBuilder.SOURCE_PATH);
-        outputFilePath = getIntent().getStringExtra(ImageEditorIntentBuilder.OUTPUT_PATH);
+        isPortraitForced = screens.getWithForcePortrait();
+        sourceFilePath = getIntent().getStringExtra(SOURCE_PATH);
+        outputFilePath = getIntent().getStringExtra(OUTPUT_PATH);
         loadImageFromFile(sourceFilePath);
     }
 
@@ -186,7 +189,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
         saturationView = findViewById(R.id.contrast_panel);
         bottomGallery = findViewById(R.id.bottom_gallery);
 
-        mainMenuFragment = MainMenuFragment.newInstance();
+        mainMenuFragment = MainMenuFragment.Companion.newInstance(screens);
         mainMenuFragment.setArguments(getIntent().getExtras());
 
         BottomGalleryAdapter bottomGalleryAdapter = new BottomGalleryAdapter(
@@ -323,8 +326,8 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
 
     protected void onSaveTaskDone() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(ImageEditorIntentBuilder.SOURCE_PATH, sourceFilePath);
-        returnIntent.putExtra(ImageEditorIntentBuilder.OUTPUT_PATH, outputFilePath);
+        returnIntent.putExtra(SOURCE_PATH, sourceFilePath);
+        returnIntent.putExtra(OUTPUT_PATH, outputFilePath);
         returnIntent.putExtra(IS_IMAGE_EDITED, numberOfOperations > 0);
 
         setResult(RESULT_OK, returnIntent);
@@ -473,7 +476,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
                 case SaturationFragment.INDEX:
                     return saturationFragment;
             }
-            return MainMenuFragment.newInstance();
+            return MainMenuFragment.Companion.newInstance(screens);
         }
 
         @Override
